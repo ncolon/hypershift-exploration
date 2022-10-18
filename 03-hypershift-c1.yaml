@@ -1,0 +1,60 @@
+apiVersion: cluster.open-cluster-management.io/v1alpha1
+kind: HypershiftDeployment
+metadata:
+  name: hypershift-c1
+  namespace: default
+spec:
+  hostingCluster: local-cluster
+  hostingNamespace: clusters
+  hostedClusterSpec:
+    networking:
+      networkType: OpenShiftSDN
+      machineCIDR: 10.2.0.0/16    # Default 10.0.0.0/16
+      podCIDR: 10.132.0.0/14      # Default
+      serviceCIDR: 172.31.0.0/16  # Default
+    platform:
+      type: AWS
+    pullSecret:
+      name: hypershift-c1-pull-secret    # This secret is created by the controller
+    release:
+      image: quay.io/openshift-release-dev/ocp-release:4.10.15-x86_64  # Default
+    services:
+    - service: APIServer
+      servicePublishingStrategy:
+        type: LoadBalancer
+    - service: OAuthServer
+      servicePublishingStrategy:
+        type: Route
+    - service: Konnectivity
+      servicePublishingStrategy:
+        type: Route
+    - service: Ignition
+      servicePublishingStrategy:
+        type: Route
+    sshKey: {}
+  nodePools:
+  - name: hypershift-c1
+    spec:
+      replicas: 2 
+      clusterName: hypershift-c1
+      management:
+        autoRepair: false
+        replace:
+          rollingUpdate:
+            maxSurge: 1
+            maxUnavailable: 0
+          strategy: RollingUpdate
+        upgradeType: Replace
+      platform:
+        aws:
+          instanceType: m6i.xlarge
+        type: AWS
+      release:
+        image: quay.io/openshift-release-dev/ocp-release:4.10.15-x86_64 # Default
+  infrastructure:
+    cloudProvider:
+      name: my-aws-cred
+    configure: True
+    platform:
+      aws:
+        region: us-east-2

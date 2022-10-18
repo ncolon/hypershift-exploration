@@ -1,0 +1,76 @@
+apiVersion: cluster.open-cluster-management.io/v1alpha1
+kind: HypershiftDeployment
+metadata:
+  name: hypershift-c2
+  namespace: default
+spec:
+  hostingCluster: local-cluster
+  hostingNamespace: clusters
+  hostedClusterSpec:
+    infrastructureAvailabilityPolicy: HighlyAvailable # default SingleReplica
+    controllerAvailabilityPolicy: HighlyAvailable     # default SingleReplica
+    networking:
+      networkType: OpenShiftSDN
+      machineCIDR: 10.2.0.0/16    # Default 10.0.0.0/16 << NOT WORKING
+      podCIDR: 10.132.0.0/14      # Default
+      serviceCIDR: 172.31.0.0/16  # Default
+      machineNetwork:
+      - cidr: 10.2.0.0/16 # << NOT WORKING
+      clusterNetwork:
+      - cidr: 10.132.0.0/14
+        hostPrefix: 23
+      serviceNetwork:
+      - cidr: 172.31.0.0/16
+    platform:
+      type: AWS
+    pullSecret:
+      name: hypershift-c2-pull-secret    # This secret is created by the controller
+    release:
+      image: quay.io/openshift-release-dev/ocp-release:4.10.15-x86_64  # Default
+    services:
+    - service: APIServer
+      servicePublishingStrategy:
+        type: LoadBalancer
+    - service: OAuthServer
+      servicePublishingStrategy:
+        type: Route
+    - service: Konnectivity
+      servicePublishingStrategy:
+        type: Route
+    - service: Ignition
+      servicePublishingStrategy:
+        type: Route
+    sshKey: {}
+  nodePools:
+  - name: hypershift-c2
+    spec:
+      # replicas: 2 # Minimum 2, can't be set with autoScaling
+      autoScaling:  # enable nodepool autoscaling, not working
+        min: 2
+        max: 5
+      clusterName: hypershift-c2
+      management:
+        autoRepair: false
+        replace:
+          rollingUpdate:
+            maxSurge: 1
+            maxUnavailable: 0
+          strategy: RollingUpdate
+        upgradeType: Replace
+      platform:
+        aws:
+          instanceType: m6i.xlarge
+        type: AWS
+      release:
+        image: quay.io/openshift-release-dev/ocp-release:4.10.15-x86_64 # Default      
+  infrastructure:
+    cloudProvider:
+      name: my-aws-cred
+    configure: True ## << possible BYOInfra?
+    platform:
+      aws:
+        region: us-east-2
+        zones:
+          - "us-east-2a"
+          - "us-east-2b"
+          - "us-east-2c"

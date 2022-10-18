@@ -1,0 +1,99 @@
+---
+apiVersion: hypershift.openshift.io/v1alpha1
+kind: NodePool
+metadata:
+  name: hypershift-c2-storage-us-east-2a
+  namespace: clusters
+  ownerReferences:
+  - apiVersion: hypershift.openshift.io/v1alpha1
+    kind: HostedCluster
+    name: hypershift-c2
+    uid: e9760133-236e-44b7-8d12-ef4b9e1ff3c9
+spec:
+  replicas: 1
+  clusterName: hypershift-c2
+  management:
+    autoRepair: false
+    replace:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+      strategy: RollingUpdate
+    upgradeType: Replace
+  platform:
+    aws:
+      instanceProfile: hypershift-c2-ksw27-worker
+      instanceType: m6i.4xlarge
+      securityGroups:
+      - id: sg-0f609e9a29d368fd2
+      subnet:
+        id: subnet-0b2fb4ca4e224cc6a
+    type: AWS
+  release:
+    image: quay.io/openshift-release-dev/ocp-release:4.10.15-x86_64
+---
+apiVersion: hypershift.openshift.io/v1alpha1
+kind: NodePool
+metadata:
+  name: hypershift-c2-storage-us-east-2b
+  namespace: clusters
+  ownerReferences:
+  - apiVersion: hypershift.openshift.io/v1alpha1
+    kind: HostedCluster
+    name: hypershift-c2
+    uid: e9760133-236e-44b7-8d12-ef4b9e1ff3c9
+spec:
+  replicas: 1
+  clusterName: hypershift-c2
+  management:
+    autoRepair: false
+    replace:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+      strategy: RollingUpdate
+    upgradeType: Replace
+  platform:
+    aws:
+      instanceProfile: hypershift-c2-ksw27-worker
+      instanceType: m6i.4xlarge
+      securityGroups:
+      - id: sg-0f609e9a29d368fd2
+      subnet:
+        id: subnet-09d27e80f4fe9b648
+    type: AWS
+  release:
+    image: quay.io/openshift-release-dev/ocp-release:4.10.15-x86_64
+---
+apiVersion: hypershift.openshift.io/v1alpha1
+kind: NodePool
+metadata:
+  name: hypershift-c2-storage-us-east-2c
+  namespace: clusters
+  ownerReferences:
+  - apiVersion: hypershift.openshift.io/v1alpha1
+    kind: HostedCluster
+    name: hypershift-c2
+    uid: e9760133-236e-44b7-8d12-ef4b9e1ff3c9
+spec:
+  replicas: 1
+  clusterName: hypershift-c2
+  management:
+    autoRepair: false
+    replace:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+      strategy: RollingUpdate
+    upgradeType: Replace
+  platform:
+    aws:
+      instanceProfile: hypershift-c2-ksw27-worker
+      instanceType: m6i.4xlarge
+      securityGroups:
+      - id: sg-0f609e9a29d368fd2
+      subnet:
+        id: subnet-013be0d5db69802cf
+    type: AWS
+  release:
+    image: quay.io/openshift-release-dev/ocp-release:4.10.15-x86_64
