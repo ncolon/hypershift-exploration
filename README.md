@@ -199,6 +199,7 @@
     Q5: How to deploy a HypershiftDeployment in multizone by default. Setting [`infrastructureAvailabilityPolicy: HighlyAvailable`](https://github.com/ncolon/hypershift-exploration/blob/main/04-hypershift-c2.yaml#L10) does create a multizone VPC, but initial nodepool only deployed to a single zone.
 
     Q6: How to deploy a HA hostedControlPlane?  By default a `HypershiftDeployment` will deploy a `HostedControlPlane` with single replicas of control plane operators by default.
+    
     A6: Set [`controllerAvailabilityPolicy: HighlyAvailable`](https://github.com/ncolon/hypershift-exploration/blob/main/04-hypershift-c2.yaml#L11)
 
     Q7: What is the recommended way of manually scaling a hostedCluster?
