@@ -88,7 +88,7 @@
       --from-literal=region=$REGION -n local-cluster
     ```
 
-6. Create a ManagedClusterAddon to enable HyperShift, if you’re using another managed cluster other than local-cluster to manage HyperShift deployments replace '-n local-cluster' with your managed cluster namespace.
+6. Create a ManagedClusterAddon to enable HyperShift, if you’re using another managed cluster other than local-cluster to manage HyperShift deployments replace `-n local-cluster` with your managed cluster namespace.
 
     ```yaml
     apiVersion: addon.open-cluster-management.io/v1alpha1
