@@ -199,7 +199,7 @@
     Q5: How to deploy a HypershiftDeployment in multizone by default. Setting [`infrastructureAvailabilityPolicy: HighlyAvailable`](https://github.com/ncolon/hypershift-exploration/blob/main/04-hypershift-c2.yaml#L10) does create a multizone VPC, but initial nodepool only deployed to a single zone.
 
     Q6: How to deploy a HA hostedControlPlane?  By default a `HypershiftDeployment` will deploy a `HostedControlPlane` with single replicas of control plane operators by default.
-    
+
     A6: Set [`controllerAvailabilityPolicy: HighlyAvailable`](https://github.com/ncolon/hypershift-exploration/blob/main/04-hypershift-c2.yaml#L11)
 
     Q7: What is the recommended way of manually scaling a hostedCluster?
@@ -233,3 +233,5 @@
     default     hypershift-c1   AWS    ConfiguredAsExpected   ConfiguredAsExpected   ConfiguredAsExpected   AsExpected     Completed   True
     $ oc edit hd -n default hypershift-c1 # << THIS WORKS
     ```
+
+    Q8: Is there an easier way to add nodePools to an existing multizone cluster?  [This works](https://github.com/ncolon/hypershift-exploration/blob/main/05-hypershift-c2-storage-nodepool.yaml) but the process is completely manual.  I had to `oc get nodepool hypershift-c2 -o yaml` build a nodepool for each zone, all while digging thru the AWS console for the right subnet-id for each zone.
